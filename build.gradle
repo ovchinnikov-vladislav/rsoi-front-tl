@@ -1,0 +1,23 @@
+plugins {
+    id "java"
+    id "org.springframework.boot" version "2.1.8.RELEASE"
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:2.1.8.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.1.8.RELEASE'
+    implementation 'org.apache.httpcomponents:httpclient:4.5.10'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.27'
+    implementation 'jstl:jstl:1.2'
+    implementation 'com.google.guava:guava:27.0.1-jre'
+    testImplementation 'junit:junit:4.12'
+}
+
+springBoot {
+    mainClassName = 'rsoi.lab3.microservices.front.App'
+}
+
