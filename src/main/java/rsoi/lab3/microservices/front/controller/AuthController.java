@@ -28,18 +28,10 @@ public class AuthController {
     public String logIn(Model model, HttpServletRequest request, @ModelAttribute User user) {
         User u = (User) request.getSession().getAttribute("user");
         if (u == null) {
-            String md5Hex = DigestUtils.md5Hex(user.getPassword()).toUpperCase();
-            user.setPassword(md5Hex);
             u = authService.check(user);
             if (u != null) {
                 model.addAttribute("user", u);
                 request.getSession().setAttribute("user", u);
-            } else {
-                u = authService.check(user);
-                if (u != null) {
-                    model.addAttribute("user", u);
-                    request.getSession().setAttribute("user", u);
-                }
             }
         }
         return "redirect:/";
@@ -54,9 +46,7 @@ public class AuthController {
 
     @PostMapping(value = "/sign_in")
     public String signIn(HttpServletRequest request, @ModelAttribute @Valid User user) {
-        String md5Hex = DigestUtils.md5Hex(user.getPassword()).toUpperCase();
-        user.setPassword(md5Hex);
-        User u = authService.add(user);
+        User u = authService.create(user);
         return "redirect:/";
     }
 

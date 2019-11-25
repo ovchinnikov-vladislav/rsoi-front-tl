@@ -27,7 +27,7 @@
             </li>
             <li class="nav-item" th:if="${user.idUser != null}">
                 <a class="btn btn-secondary btn-lg ml-3 mr-5 text-light" role="button"
-                   th:if="${user.idUser != null && user.group == 1}" th:href="@{'/user/' + ${user.idUser} + '/task'}">Задачи</a>
+                   th:if="${user.idUser != null && user.group == 0}" th:href="@{'/user/' + ${user.idUser} + '/task'}">Задачи</a>
             </li>
             <li class="nav-item" th:if="${user.idUser == null}">
                 <a class="btn btn-secondary btn-sm mr-3 text-light" role="button" th:href="@{/sign_in}">Регистрация</a>

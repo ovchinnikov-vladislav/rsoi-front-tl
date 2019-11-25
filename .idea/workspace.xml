@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1e149379-fe0c-4565-8a56-f5cd1628c147" name="Default Changelist" comment="" />
+    <list default="true" id="1e149379-fe0c-4565-8a56-f5cd1628c147" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/model/TaskPage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/service/TaskExecutorService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/service/TaskService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/ExceptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/ExceptionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/TaskChangeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/TaskChangeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/TaskExecuteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/TaskExecuteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/sign-in.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/sign-in.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/task-change.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/task-change.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/task-delete.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/task-delete.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/sign_in.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/sign_in.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/task.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/task.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/task_change.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/task_change.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/tasks_user.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/tasks_user.html" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,6 +37,16 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectCodeStyleSettingsMigration">
     <option name="version" value="1" />
   </component>
@@ -28,7 +59,13 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.general" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="rsoi.lab3.microservices.front.model" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -62,10 +99,37 @@
       <option name="presentableId" value="Default" />
       <updated>1574114322053</updated>
       <workItem from="1574114324943" duration="823000" />
+      <workItem from="1574592840873" duration="11322000" />
+      <workItem from="1574676185513" duration="7310000" />
+      <workItem from="1574698501339" duration="6289000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/TaskChangeController.java</url>
+          <line>129</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

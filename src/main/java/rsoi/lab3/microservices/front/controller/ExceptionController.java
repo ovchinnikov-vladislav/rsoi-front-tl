@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.client.HttpClientErrorException;
 import rsoi.lab3.microservices.front.model.ErrorResponse;
 
 import java.util.Date;
@@ -37,6 +38,13 @@ public class ExceptionController {
             return new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), "Bad Request: " + result, new Date());
         }
         return new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), "Bad Request: " + null, new Date());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpClientErrorException.class)
+    @ResponseBody
+    public ErrorResponse requestHttpMessageNotReadableException(HttpClientErrorException exc) {
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.toString(), "Bad Request: " + exc.getResponseBodyAsString(), new Date());
     }
 
 }

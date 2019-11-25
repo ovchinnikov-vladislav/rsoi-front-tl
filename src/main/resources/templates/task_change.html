@@ -56,7 +56,7 @@
             </li>
             <li class="nav-item" th:if="${user.idUser != null}">
                 <a class="btn btn-secondary btn-lg ml-3 mr-5 text-light" role="button"
-                   th:if="${user.idUser != null && user.group == 1}" th:href="@{'/user/' + ${user.idUser} + '/task'}">Задачи</a>
+                   th:if="${user.idUser != null && user.group == 0}" th:href="@{'/user/' + ${user.idUser} + '/task'}">Задачи</a>
             </li>
             <li class="nav-item" th:if="${user.idUser == null}">
                 <a class="btn btn-secondary btn-sm mr-3 text-light" role="button" th:href="@{/sign_in}">Регистрация</a>
@@ -139,11 +139,14 @@
                         <label for="name-task">Введие название задания (обязательно)</label>
                         <input id="name-task" type="text" th:value="${task.nameTask}" class="form-control mb-1"
                                                               placeholder="Название задания" required>
+                        <p id="name-info-text" style="font-size: 14px; color: darkred; display: none">
+                            Название задания должно быть введено обязательно
+                        </p>
                         <label for="description-task">Введите краткое описание задания</label>
                         <textarea id="description-task" class="form-control mb-3" th:text="${task.description}"
                                                                         placeholder="Краткое описание задания" rows="4"></textarea>
 
-                        <label for="complexity-task">Сложность задания (обязательно): </label>
+                        <label for="complexity-task">Сложность задания (обязательно): </label><br/>
                         <b>1</b>
                         <input id="complexity-task" class="form-control mr-2 ml-2" data-slider-id='slider' type="text"
                                data-slider-min="1" data-slider-max="5" data-slider-step="1" th:data-slider-value="${task.complexity != null ? task.complexity : 3}" required/>
@@ -155,6 +158,9 @@
                     <label for="text-task">Введите подробное описание задания (обязательно)</label>
                     <textarea id="text-task" class="form-control mb-3" th:text="${task.textTask}"
                                                              placeholder="Подробное описание задания" rows="4" required></textarea>
+                    <p id="text-task-info-text" style="font-size: 14px; color: darkred; display: none">
+                        Требуется текст задания
+                    </p>
                 </div>
                 <div class="row">
                     <label for="source-template-task">
@@ -164,6 +170,11 @@
                 <div class="row">
                 <textarea id="source-template-task" th:text="${task.getTemplateCode()}" class="form-control"
                           rows="10"></textarea>
+                </div>
+                <div class="row">
+                    <p id="source-test-info-text" style="font-size: 14px; color: darkred; display: none">
+                        Требуется написать тесты
+                    </p>
                 </div>
                 <hr/>
                 <div class="row">

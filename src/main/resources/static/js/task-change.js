@@ -93,17 +93,20 @@ function setSaveTask() {
         location = document.location.href + "/create";
     else if (type_operation === 1)
         location = document.location.href + "/update";
+    var name_info = $('#name-info-text');
+    var text_task_info = $('#text-task-info-text');
+    var source_test_info = $('#source-test-info-text');
     $('#save_button').click(function () {
         $('#overlay').css('display', 'block');
         var dataTask = {};
-        dataTask.nameTask = $('#name-task').val();
-        dataTask.description = $('#description-task').val();
-        dataTask.textTask = $('#text-task').val();
-        dataTask.templateCode = sourceTemplateArea.getValue("\n");
+        dataTask.nameTask = $('#name-task').val() + "";
+        dataTask.description = $('#description-task').val() + "";
+        dataTask.textTask = $('#text-task').val() + "";
+        dataTask.templateCode = sourceTemplateArea.getValue("\n") + "";
         dataTask.complexity = $('#complexity-task').val();
         var dataTest = {};
-        dataTest.sourceCode = sourceTestArea.getValue("\n");
-        dataTest.description = $('#description-test').val();
+        dataTest.sourceCode = sourceTestArea.getValue("\n") + "";
+        dataTest.description = $('#description-test').val() + "";
         dataTask.test = dataTest;
         $.ajax({
             url: location,
@@ -113,22 +116,31 @@ function setSaveTask() {
             data: JSON.stringify(dataTask),
             success: function (data) {
                 $('#name-task').removeClass('is-invalid');
+                name_info.css("display", "none");
                 $('#text-task').removeClass('is-invalid');
+                text_task_info.css("display", "none");
                 $('#source-test').removeClass('is-invalid');
+                source_test_info.css("display", "none");
                 $('#btn-ok').click(function () {
-                    history.back();
+                    window.location.href = document.referrer;
                 });
                 $('#info-text-modal').text("Данные задачи успешно сохранены.");
                 $('#info-modal').modal('show');
             },
             error: function (request, status) {
                 var message = request.responseText;
-                if (message.indexOf("nameTask") !== -1)
+                if (message.indexOf("nameTask") !== -1) {
                     $('#name-task').addClass('is-invalid');
-                if (message.indexOf("textTask") !== -1)
+                    name_info.css("display", "block");
+                }
+                if (message.indexOf("textTask") !== -1) {
                     $('#text-task').addClass('is-invalid');
-                if (message.indexOf("sourceCode") !== -1)
+                    text_task_info.css("display", "block");
+                }
+                if (message.indexOf("sourceCode") !== -1) {
                     $('#source-test').addClass('is-invalid');
+                    source_test_info.css("display", "block");
+                }
                 $('#info-text-modal').text("При сохранении произошла ошибка. Проверьте, что обязательные поля заполнены.");
                 $('#btn-ok').click(function () {
                     $('#info-modal').modal('hide');

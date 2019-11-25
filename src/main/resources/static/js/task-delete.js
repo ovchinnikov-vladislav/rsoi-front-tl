@@ -1,10 +1,12 @@
-function openDeleteModal() {
+var deleteBtn = null;
+
+function openDeleteModal(elem) {
+    deleteBtn = elem;
     $('#delete-modal').modal('show');
 }
 
 $(document).ready(function() {
-    $('#btn-delete').click(function (e) {
-        var deleteBtn = document.getElementById("delete-button");
+    $('#btn-delete').click(function () {
         var idUser = deleteBtn.getAttribute("data-iduser");
         var idTask = deleteBtn.getAttribute("data-idtask");
         var overlay = $('#overlay');

@@ -11,6 +11,8 @@ import rsoi.lab3.microservices.front.entity.Task;
 import rsoi.lab3.microservices.front.entity.User;
 import rsoi.lab3.microservices.front.model.ExecuteTaskRequest;
 import rsoi.lab3.microservices.front.model.ResultTest;
+import rsoi.lab3.microservices.front.service.TaskExecutorService;
+import rsoi.lab3.microservices.front.service.TaskService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -19,17 +21,19 @@ import javax.validation.Valid;
 public class TaskExecuteController {
 
     @Autowired
-    private RestTemplate restTemplate;
+    private TaskExecutorService executorService;
+    @Autowired
+    private TaskService taskService;
 
     @GetMapping(value = "/task/{id}")
-    public ModelAndView task(Model model, HttpServletRequest request, @PathVariable Long id) {
+    public ModelAndView task(@PathVariable Long id, Model model, HttpServletRequest request) {
         User u = (User) request.getSession().getAttribute("user");
         ResultTest r = (ResultTest) request.getSession().getAttribute("resultTest");
         Task t = new Task();
         if (u == null) {
             u = new User();
         } else {
-            t = restTemplate.getForObject(String.format("http://localhost:8080/gate/tasks/%d", id), Task.class);
+            t = taskService.findById(id);
         }
         if (r == null) {
             r = new ResultTest();
@@ -37,11 +41,13 @@ public class TaskExecuteController {
         model.addAttribute("user", u);
         model.addAttribute("task", t);
         model.addAttribute("resultTest", r);
+        request.getSession().setAttribute("resultTest", null);
         return new ModelAndView("task");
     }
 
     @PostMapping(value = "/task/{id}")
-    public String sendTaskOnExecute(Model model, HttpServletRequest request, @Valid @ModelAttribute Task task, @PathVariable Long id) {
+    public String sendTaskOnExecute(@Valid @ModelAttribute Task task, @PathVariable Long id,
+                                    Model model, HttpServletRequest request) {
         User u = (User) request.getSession().getAttribute("user");
         Task t = (Task) request.getSession().getAttribute("task");
         if (u != null && t != null) {
@@ -57,8 +63,9 @@ public class TaskExecuteController {
     }
 
     @PostMapping(value = "/task/execute")
-    public String executeTask(@Valid @RequestBody ExecuteTaskRequest executeTaskRequest, Model model, HttpServletRequest request) {
-        ResultTest resultTest = restTemplate.postForObject("http://localhost:8080/gate/tasks/execute", executeTaskRequest, ResultTest.class);
+    public String executeTask(@Valid @RequestBody ExecuteTaskRequest executeTaskRequest,
+                              Model model, HttpServletRequest request) {
+        ResultTest resultTest = executorService.execute(executeTaskRequest);
         request.getSession().setAttribute("resultTest", resultTest);
         return "redirect:/task/" + executeTaskRequest.getIdTask();
     }

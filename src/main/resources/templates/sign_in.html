@@ -15,6 +15,27 @@
 </head>
 <body>
 <header>
+    <!-- Информационное модальное окно -->
+    <div class="modal fade" id="info-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="vertical-alignment-helper">
+            <div class="modal-dialog vertical-align-center">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Информация</h4>
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label id="info-text-modal">...</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btn-ok" type="button" class="btn btn-primary">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Модальное окно входа -->
     <div id="input-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="input_modal"
          aria-hidden="true">
@@ -61,7 +82,7 @@
             </li>
             <li class="nav-item" th:if="${user.idUser != null}">
                 <a class="btn btn-secondary btn-lg ml-3 mr-5 text-light" role="button"
-                   th:if="${user.idUser != null && user.group == 1}" th:href="@{'/user/' + ${user.idUser} + '/task'}">Задачи</a>
+                   th:if="${user.idUser != null && user.group == 0}" th:href="@{'/user/' + ${user.idUser} + '/task'}">Задачи</a>
             </li>
             <li class="nav-item" th:if="${user.idUser == null}">
                 <a class="btn btn-secondary btn-sm mr-3 text-light" role="button" th:href="@{/sign_in}">Регистрация</a>
@@ -95,10 +116,16 @@
             <div class="form-group">
                 <label for="login-text">Введите логин (длина от 5 до 50 символов)</label>
                 <input id="login-text" type="text" class="form-control" placeholder="Логин" required>
+                <p  id="login-info-text" style="font-size: 14px; color: darkred; display: none">
+                    Логин уже существует, или неверная длина
+                </p>
             </div>
             <div class="form-group">
                 <label for="email-text">Введите email согласно шаблону (email@domain.com)</label>
                 <input id="email-text" type="email" class="form-control" placeholder="E-mail" required>
+                <p  id="email-info-text" style="font-size: 14px; color: darkred; display: none">
+                    Email уже существует, или некорректен
+                </p>
             </div>
             <div class="form-group">
                 <label for="first-name-text">Введите свое Имя</label>
@@ -111,6 +138,9 @@
             <div class="form-group">
                 <label for="password-text">Введите пароль (не менее 8 символов)</label>
                 <input id="password-text" type="password" class="form-control" placeholder="Пароль" required>
+                <p  id="password-info-text" style="font-size: 14px; color: darkred; display: none">
+                    Пароль некорректен (длина должна быть больше 8 символов)
+                </p>
             </div>
             <button id="input-modal-btn" class="btn btn-outline-dark btn-lg mb-2" type="button" onclick="openInputModal()">Вход</button>
             <button id="btn-sign-in" type="button" class="btn btn-outline-secondary my_btn btn-lg mb-2">Зарегистрироваться</button>

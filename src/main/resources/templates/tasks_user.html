@@ -47,7 +47,7 @@
             </li>
             <li class="nav-item" th:if="${user.idUser != null}">
                 <a class="btn btn-secondary btn-lg ml-3 mr-5 text-light" role="button"
-                   th:if="${user.idUser != null && user.group == 1}" th:href="@{'/user/' + ${user.idUser} + '/task'}">Задачи</a>
+                   th:if="${user.idUser != null && user.group == 0}" th:href="@{'/user/' + ${user.idUser} + '/task'}">Задачи</a>
             </li>
             <li class="nav-item" th:if="${user.idUser == null}">
                 <a class="btn btn-secondary btn-sm mr-3 text-light" role="button" th:href="@{/sign_in}">Регистрация</a>
@@ -111,7 +111,10 @@
         </div>
         <hr/>
         <div id="tasks-div" class="row">
-            <div th:each="task: ${tasks_user}" class="col-sm-6 col-lg-4 d-flex">
+            <div class="container-fluid" th:if="${tasksPage.content.size() == 0}" >
+                <h1 class="text-center" style="color: grey">Созданные задачи не найдены.</h1>
+            </div>
+            <div th:each="task: ${tasksPage.content}" class="col-sm-6 col-lg-4 d-flex">
                 <div class="card mt-3" th:if="${task.idUser == user.idUser}">
                     <div class="img_wrap">
                         <img class="card-img-top image-task" th:if="${task.image == null || task.image == ''}"
@@ -131,14 +134,33 @@
                                class="btn btn-outline-secondary my_btn container-fluid">Изменить</a>
                         </div>
                         <div class="col text-center container-fluid">
-                            <a id="delete-button" data-toggle="modal" th:data-iduser="${user.idUser}"
+                            <a th:id="${'delete-button' + task.idTask}" data-toggle="modal" th:data-iduser="${user.idUser}"
                                th:data-idtask="${task.idTask}" class="btn btn-outline-secondary my_btn container-fluid"
-                               onclick="openDeleteModal()">Удалить</a>
+                               onclick="openDeleteModal(this)">Удалить</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <nav class="mt-3">
+            <ul class="pagination" th:if="${tasksPage.totalPages > 1}" >
+                <li class="page-item" th:if="${tasksPage.number > 0}">
+                    <a class="page-link" th:href="@{'/user/' +${user.idUser} + '/task?page=' +${tasksPage.getNumber() - 1} + '&size=' + ${tasksPage.size}}"><<</a>
+                </li>
+                <li class="page-item" th:if="${tasksPage.totalPages > 1 && tasksPage.number > 0}">
+                    <a class="page-link" th:href="@{'/user/' +${user.idUser} + '/task?page=' +${tasksPage.getNumber() - 1} + '&size=' + ${tasksPage.size}}" th:text="${tasksPage.getNumber()}"></a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" th:href="@{'/user/' +${user.idUser} + '/task?page=' +${tasksPage.getNumber()} + '&size=' + ${tasksPage.size}}" th:text="${tasksPage.getNumber() + 1}"></a>
+                </li>
+                <li class="page-item" th:if="${tasksPage.totalPages > 3 && tasksPage.number < tasksPage.totalPages - 1}">
+                    <a class="page-link" th:href="@{'/user/' +${user.idUser} + '/task?page=' +${tasksPage.getNumber() + 1} + '&size=' + ${tasksPage.size}}" th:text="${tasksPage.getNumber()+2}"></a>
+                </li>
+                <li class="page-item" th:if="${tasksPage.number < tasksPage.totalPages - 1}">
+                    <a class="page-link" th:href="@{'/user/' +${user.idUser} + '/task?page=' +${tasksPage.getNumber() + 1} + '&size=' + ${tasksPage.size}}">>></a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </main>
 
