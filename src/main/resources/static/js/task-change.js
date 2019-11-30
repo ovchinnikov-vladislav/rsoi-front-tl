@@ -88,11 +88,11 @@ function setInputValid() {
 }
 
 function setSaveTask() {
-    var location = "";
+    var location = document.location.href;
     if (type_operation === 0)
-        location = document.location.href + "/create";
+        location = location.substr(0, location.lastIndexOf('/')) + "/create";
     else if (type_operation === 1)
-        location = document.location.href + "/update";
+        location = location + "/update";
     var name_info = $('#name-info-text');
     var text_task_info = $('#text-task-info-text');
     var source_test_info = $('#source-test-info-text');

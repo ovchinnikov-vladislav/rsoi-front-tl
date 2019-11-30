@@ -104,7 +104,8 @@
             <div class="row">
                 <div id="send-code" class="col">
                     <button id="send-task-btn" type="submit" class="btn btn-outline-secondary btn-lg my_btn mb-2"
-                            th:onclick="'sendExecuteTask(' + ${user.idUser} +','+ ${task.idTask} + ');'">
+                            th:data1="${user.idUser}" th:data2="${task.idTask}"
+                            th:onclick="sendExecuteTask(this.getAttribute('data1'), this.getAttribute('data2'))">
                         Отправить на проверку
                     </button>
                 </div>

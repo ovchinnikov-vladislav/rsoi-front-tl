@@ -8,6 +8,7 @@ import rsoi.lab3.microservices.front.model.TaskPage;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 @Service
 public class TaskService {
@@ -15,11 +16,11 @@ public class TaskService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public Task findById(Long id) {
+    public Task findById(UUID id) {
         return restTemplate.getForObject("http://localhost:8080/gate/tasks/{id}", Task.class, id);
     }
 
-    public Task findByUserIdAndTaskId(Long idUser, Long idTask) {
+    public Task findByUserIdAndTaskId(UUID idUser, UUID idTask) {
         return restTemplate.getForObject("http://localhost:8080/gate/users/{idUser}/tasks/{idTask}", Task.class, idUser, idTask);
     }
 
@@ -27,21 +28,21 @@ public class TaskService {
         return restTemplate.getForObject("http://localhost:8080/gate/tasks?page={page}&size={size}", TaskPage.class, page, size);
     }
 
-    public TaskPage findByUserId(Long id, Integer page, Integer size) {
+    public TaskPage findByUserId(UUID id, Integer page, Integer size) {
         return restTemplate.getForObject("http://localhost:8080/gate/users/{id}/tasks?page={page}&size={size}", TaskPage.class, id, page, size);
     }
 
-    public Task create(Long idUser, Task task) {
+    public Task create(UUID idUser, Task task) {
         return restTemplate.postForObject("http://localhost:8080/gate/users/{id}/tasks", task, Task.class, idUser);
     }
 
-    public void update(Long idUser, Long idTask, Task task) {
+    public void update(UUID idUser, UUID idTask, Task task) {
         restTemplate.put("http://localhost:8080/gate/users/{idUser}/tasks/{idTask}", task, idUser, idTask);
     }
 
-    public void delete(Long idUser, Long idTask) {
+    public void delete(UUID idUser, UUID idTask) {
         Task task = restTemplate.getForObject("http://localhost:8080/gate/users/{idUser}/tasks/{idTask}", Task.class, idUser, idTask);
-        if (task != null && task.getIdTask().longValue() == idTask && task.getIdUser().longValue() == idUser) {
+        if (task != null && task.getIdTask() == idTask && task.getIdUser() == idUser) {
             restTemplate.delete("http://localhost:8080/gate/users/{idUser}/tasks/{idTask}", idUser, idTask);
             try {
                 Files.deleteIfExists(Paths.get(task.getImage()));

@@ -16,6 +16,7 @@ import rsoi.lab3.microservices.front.service.TaskService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.UUID;
 
 @Controller
 public class TaskExecuteController {
@@ -26,7 +27,7 @@ public class TaskExecuteController {
     private TaskService taskService;
 
     @GetMapping(value = "/task/{id}")
-    public ModelAndView task(@PathVariable Long id, Model model, HttpServletRequest request) {
+    public ModelAndView task(@PathVariable UUID id, Model model, HttpServletRequest request) {
         User u = (User) request.getSession().getAttribute("user");
         ResultTest r = (ResultTest) request.getSession().getAttribute("resultTest");
         Task t = new Task();
@@ -46,7 +47,7 @@ public class TaskExecuteController {
     }
 
     @PostMapping(value = "/task/{id}")
-    public String sendTaskOnExecute(@Valid @ModelAttribute Task task, @PathVariable Long id,
+    public String sendTaskOnExecute(@Valid @ModelAttribute Task task, @PathVariable UUID id,
                                     Model model, HttpServletRequest request) {
         User u = (User) request.getSession().getAttribute("user");
         Task t = (Task) request.getSession().getAttribute("task");

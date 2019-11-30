@@ -25,6 +25,7 @@ import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -36,7 +37,7 @@ public class TaskChangeController {
 
     @GetMapping(value = "/user/{id}/task")
     public ModelAndView tasksByUser(Model model,
-                                    @PathVariable Long id,
+                                    @PathVariable UUID id,
                                     @RequestParam(value = "page") Optional<Integer> page,
                                     @RequestParam(value = "size") Optional<Integer> size, HttpServletRequest request) {
         int currentPage = page.orElse(0);
@@ -46,26 +47,27 @@ public class TaskChangeController {
         request.getSession().setAttribute("task", null);
         if (u == null) {
             u = new User();
-        } else if (u.getIdUser().longValue() != id) {
+        } else if (!u.getIdUser().equals(id)) {
             u = new User();
         } else {
             TaskPage tasksPage = taskService.findByUserId(id, currentPage, pageSize);
             model.addAttribute("tasksPage", tasksPage);
         }
+        model.addAttribute("uuid", UUID.randomUUID());
         model.addAttribute("user", u);
         return new ModelAndView("tasks_user");
     }
 
     @GetMapping(value = "/user/{idUser}/task/{idTask}")
     public ModelAndView taskByUserIdAndTaskId(Model model, HttpServletRequest request,
-                                              @PathVariable Long idUser, @PathVariable Long idTask) {
+                                              @PathVariable UUID idUser, @PathVariable UUID idTask) {
         request.getSession().setAttribute("resultTest", null);
         User u = (User) request.getSession().getAttribute("user");
         Task t = new Task();
         t.setTest(new Test());
         if (u == null) {
             u = new User();
-        } else if (u.getIdUser().longValue() != idUser) {
+        } else if (!u.getIdUser().equals(idUser)) {
             u = new User();
         } else {
             try {
@@ -82,10 +84,10 @@ public class TaskChangeController {
     }
 
     @PostMapping(value = "/user/{idUser}/task/{idTask}/upload")
-    public String upload(@PathVariable Long idUser, @PathVariable Long idTask, @RequestBody MultipartFile file,
+    public String upload(@PathVariable UUID idUser, @PathVariable UUID idTask, @RequestBody MultipartFile file,
                          Model model, HttpServletRequest request) {
         User u = (User) request.getSession().getAttribute("user");
-        if (u != null && u.getIdUser().longValue() == idUser) {
+        if (u != null && !u.getIdUser().equals(idUser)) {
             if (!file.isEmpty()) {
                 String directory = System.getProperty("user.dir") + File.separator + "files" + File.separator + "image" + File.separator;
                 String name = directory + idTask + ".png";
@@ -95,40 +97,38 @@ public class TaskChangeController {
                     Files.copy(file.getInputStream(), Paths.get(name));
                     request.getSession().setAttribute("image", idTask + "");
                 } catch (Exception e) {
-                    return String.format("redirect:/user/%d/task/%d", idUser, idTask);
+                    return String.format("redirect:/user/%s/task/%s", idUser, idTask);
                 }
             }
-            return String.format("redirect:/user/%d/task/%d", idUser, idTask);
+            return String.format("redirect:/user/%s/task/%s", idUser, idTask);
         }
         return "redirect:/";
     }
 
-    @PostMapping(value = "/user/{idUser}/task/{idTask}/create")
-    public String createTask(@PathVariable Long idUser, @PathVariable Long idTask,
-                             @Valid @RequestBody Task task, Model model, HttpServletRequest request) {
+    @PostMapping(value = "/user/{idUser}/task/create")
+    public String createTask(@PathVariable UUID idUser, @Valid @RequestBody Task task,
+                             Model model, HttpServletRequest request) {
         User u = (User) request.getSession().getAttribute("user");
-        if (u != null && u.getIdUser().longValue() == idUser) {
+        if (u != null && u.getIdUser().equals(idUser)) {
             String image = (String) request.getSession().getAttribute("image");
-            if (idTask == 0) {
-                task.setIdUser(idUser);
-                if (image != null)
-                    task.setImage(image);
-                task.setCreateDate(new Date());
-                task.getTest().setCreateDate(new Date());
-                task = taskService.create(idUser, task);
-                if (task != null)
-                    return String.format("redirect:/user/%d/task/%d", task.getIdUser(), task.getIdTask());
-            }
-            return String.format("redirect:/user/%d/task", idUser);
+            task.setIdUser(idUser);
+            if (image != null)
+                task.setImage(image);
+            task.setCreateDate(new Date());
+            task.getTest().setCreateDate(new Date());
+            task = taskService.create(idUser, task);
+            if (task != null)
+                return String.format("redirect:/user/%s/task/%s", task.getIdUser(), task.getIdTask());
+            return String.format("redirect:/user/%s/task", idUser);
         }
         return "redirect:/";
     }
 
     @PostMapping(value = "/user/{idUser}/task/{idTask}/update")
-    public String updateTask(@PathVariable Long idUser, @PathVariable Long idTask,
+    public String updateTask(@PathVariable UUID idUser, @PathVariable UUID idTask,
                              @Valid @RequestBody Task task, Model model, HttpServletRequest request) {
         User u = (User) request.getSession().getAttribute("user");
-        if (u != null && u.getIdUser().longValue() == idUser) {
+        if (u != null && u.getIdUser().equals(idUser)) {
             String image = (String) request.getSession().getAttribute("image");
             if (image != null)
                 task.setImage(image);
@@ -136,18 +136,18 @@ public class TaskChangeController {
             task.setCreateDate(new Date());
             task.getTest().setCreateDate(new Date());
             taskService.update(idUser, idTask, task);
-            return String.format("redirect:/user/%d/task", idUser);
+            return String.format("redirect:/user/%s/task", idUser);
         }
         return "redirect:/";
     }
 
     @PostMapping(value = "/user/{idUser}/task/{idTask}/delete")
-    public String deleteTask(@PathVariable Long idUser, @PathVariable Long idTask,
+    public String deleteTask(@PathVariable UUID idUser, @PathVariable UUID idTask,
                              Model model, HttpServletRequest request) {
         User u = (User) request.getSession().getAttribute("user");
-        if (u != null && u.getIdUser().longValue() == idUser) {
+        if (u != null && u.getIdUser().equals(idUser)) {
             taskService.delete(idUser, idTask);
-            return String.format("redirect:/user/%d/task", idUser);
+            return String.format("redirect:/user/%s/task", idUser);
         }
         return "redirect:/";
     }
