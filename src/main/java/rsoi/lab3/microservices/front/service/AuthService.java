@@ -3,26 +3,33 @@ package rsoi.lab3.microservices.front.service;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import rsoi.lab3.microservices.front.entity.User;
-import rsoi.lab3.microservices.front.model.RequestUser;
+import rsoi.lab3.microservices.front.client.GatewayClient;
+import rsoi.lab3.microservices.front.client.SessionClient;
+import rsoi.lab3.microservices.front.entity.user.User;
+import rsoi.lab3.microservices.front.model.AuthorizationCode;
+import rsoi.lab3.microservices.front.model.OAuthClient;
+
+import java.util.UUID;
 
 @Service
 public class AuthService {
-    @Autowired
-    private RestTemplate restTemplate;
 
-    public User check(User user) {
-        RequestUser requestUser = new RequestUser();
-        requestUser.setEmail(user.getUserName());
-        requestUser.setPassword( DigestUtils.md5Hex(user.getPassword()).toUpperCase());
-        requestUser.setUserName(user.getUserName());
-        return restTemplate.postForObject("http://localhost:8080/gate/users/check", requestUser, User.class);
-    }
+    @Autowired
+    private GatewayClient gatewayClient;
+    @Autowired
+    private SessionClient sessionClient;
 
     public User create(User user) {
         String md5Hex = DigestUtils.md5Hex(user.getPassword()).toUpperCase();
         user.setPassword(md5Hex);
-        return restTemplate.postForObject("http://localhost:8080/gate/users", user, User.class);
+        return gatewayClient.createUser(user).orElse(null);
+    }
+
+    public OAuthClient findClientById(UUID id, String token) {
+        return gatewayClient.findClientById(id, "Bearer " + token);
+    }
+
+    public AuthorizationCode getCode(UUID clientId, String redirectUri, String token) {
+        return sessionClient.getCode("code", clientId, redirectUri, "Bearer " + token);
     }
 }

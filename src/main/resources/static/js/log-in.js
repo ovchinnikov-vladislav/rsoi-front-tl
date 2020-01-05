@@ -11,24 +11,32 @@ $(document).ready(function() {
         var userName = document.getElementById("user-name");
         var password = document.getElementById("password");
         var infoText = $('#info-text');
+        $('#overlay').css('display', 'block');
+        infoText.text("Некорректные данные, неверный логин или пароль.");
+        infoText.css("display", "none");
+        var usernameText = userName.value;
+        var passwordText = password.value;
         $.ajax({
-            url: "/log_in",
+            url: "/oauth/token",
             type: "POST",
+            contentType: "application/json; charset=utf-8",
             dataType: "html",
-            data: {
-                userName: userName.value,
-                email: userName.value,
-                password: password.value
-            },
-            success: function (data) {
-                $('#navpanel').html($(data).find('#navpanel').html());
-                if ($(data).find('#welcome-text').text() !== "") {
+            data: JSON.stringify({
+                username: usernameText,
+                password: passwordText,
+                client_id: "973db60a-0b2b-44af-9f58-c3b0fe4d175f",
+                client_secret: "637d813a-3f1d-47bb-bed9-f2be36ab0507",
+                grant_type: "password"
+            }),
+            success: function (token) {
+                $('#overlay').css('display', 'none');
+                if (token !== null && token !== "") {
                     userName.classList.remove('is-invalid');
                     password.classList.remove('is-invalid');
                     userName.classList.add('is-valid');
                     password.classList.add('is-valid');
                     infoText.css("display", "none");
-                    document.location.href = "/";
+                    document.location.reload();
                 } else {
                     userName.classList.remove('is-valid');
                     password.classList.remove('is-valid');
@@ -37,12 +45,19 @@ $(document).ready(function() {
                     infoText.css("display", "block");
                 }
             },
-            error: function() {
-                userName.classList.remove('is-valid');
-                password.classList.remove('is-valid');
-                userName.classList.add('is-invalid');
-                password.classList.add('is-invalid');
-                infoText.css("display", "block");
+            error: function(request, status, error) {
+                $('#overlay').css('display', 'none');
+                var r = JSON.parse(request.responseText);
+                if (r.message.indexOf("Unauthorized") !== -1) {
+                    userName.classList.remove('is-valid');
+                    password.classList.remove('is-valid');
+                    userName.classList.add('is-invalid');
+                    password.classList.add('is-invalid');
+                    infoText.css("display", "block");
+                } else {
+                    infoText.text("Сервер недоступен или возникла другая ошибка.\nОбратитесь к администратору.");
+                    infoText.css("display", "block");
+                }
             }
         });
         return false;
@@ -75,4 +90,26 @@ function clearInputValid() {
     password.classList.remove('is-valid');
     password.classList.remove('is-invalid');
     $('#info-text').css("display", "none");
+}
+
+function proof_right(redirect_uri, client_id) {
+    $.ajax({
+        url: "/oauth/proof_right?client_id="+client_id + "&redirect_uri=" + redirect_uri,
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (authorization_code) {
+            alert(authorization_code);
+            if (authorization_code.code !== null && authorization_code.code !== "") {
+                document.location.href = redirect_uri + "?code="
+                    + authorization_code.code;
+            }
+        },
+        error: function (request, status, error) {
+        }
+    });
+}
+
+function cancel() {
+    document.location.href = "/";
 }

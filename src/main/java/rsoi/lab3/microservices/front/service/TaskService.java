@@ -1,54 +1,62 @@
 package rsoi.lab3.microservices.front.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-import rsoi.lab3.microservices.front.entity.Task;
+import rsoi.lab3.microservices.front.client.GatewayClient;
+import rsoi.lab3.microservices.front.entity.Status;
+import rsoi.lab3.microservices.front.entity.task.Task;
 import rsoi.lab3.microservices.front.model.TaskPage;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.UUID;
 
 @Service
 public class TaskService {
 
+    private static final Logger logger = LoggerFactory.getLogger(TaskService.class);
+
     @Autowired
-    private RestTemplate restTemplate;
+    private GatewayClient client;
 
     public Task findById(UUID id) {
-        return restTemplate.getForObject("http://localhost:8080/gate/tasks/{id}", Task.class, id);
+        logger.info("findById() method called.");
+        return client.findTaskById(id).orElse(null);
     }
 
-    public Task findByUserIdAndTaskId(UUID idUser, UUID idTask) {
-        return restTemplate.getForObject("http://localhost:8080/gate/users/{idUser}/tasks/{idTask}", Task.class, idUser, idTask);
+    public Task findByUserIdAndTaskId(UUID idTask, String token) {
+        logger.info("findByUserIdAndTaskId() method called.");
+        return client.findTaskByUserIdAndTaskId(idTask, "Bearer " + token).orElse(null);
     }
 
     public TaskPage findAll(Integer page, Integer size) {
-        return restTemplate.getForObject("http://localhost:8080/gate/tasks?page={page}&size={size}", TaskPage.class, page, size);
+        logger.info("findAll() method called.");
+        return client.findTaskAll(page, size);
     }
 
-    public TaskPage findByUserId(UUID id, Integer page, Integer size) {
-        return restTemplate.getForObject("http://localhost:8080/gate/users/{id}/tasks?page={page}&size={size}", TaskPage.class, id, page, size);
+    public TaskPage findByUserId(UUID id, Integer page, Integer size, String token) {
+        logger.info("findByUserId() method called.");
+        return client.findTaskByUserId(page, size, "Bearer " + token);
     }
 
-    public Task create(UUID idUser, Task task) {
-        return restTemplate.postForObject("http://localhost:8080/gate/users/{id}/tasks", task, Task.class, idUser);
+    public Task create(Task task, String token) {
+        logger.info("create() method called.");
+        task.setStatus(Status.ACTIVE);
+        if (task.getTest() != null)
+            task.getTest().setStatus(Status.ACTIVE);
+        return client.createTask(task, "Bearer " + token).orElse(null);
     }
 
-    public void update(UUID idUser, UUID idTask, Task task) {
-        restTemplate.put("http://localhost:8080/gate/users/{idUser}/tasks/{idTask}", task, idUser, idTask);
+    public void update(UUID idTask, Task task, String token) {
+        logger.info("update() method called.");
+        task.setStatus(Status.ACTIVE);
+        if (task.getTest() != null)
+            task.getTest().setStatus(Status.ACTIVE);
+        client.updateTask(idTask, task, "Bearer " + token);
     }
 
-    public void delete(UUID idUser, UUID idTask) {
-        Task task = restTemplate.getForObject("http://localhost:8080/gate/users/{idUser}/tasks/{idTask}", Task.class, idUser, idTask);
-        if (task != null && task.getIdTask() == idTask && task.getIdUser() == idUser) {
-            restTemplate.delete("http://localhost:8080/gate/users/{idUser}/tasks/{idTask}", idUser, idTask);
-            try {
-                Files.deleteIfExists(Paths.get(task.getImage()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
+    public void delete(UUID idTask, String token) {
+        logger.info("delete() method called.");
+        client.deleteTask(idTask, "Bearer " + token);
     }
 }

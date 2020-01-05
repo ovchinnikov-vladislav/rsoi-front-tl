@@ -1,40 +1,63 @@
-package rsoi.lab3.microservices.front.entity;
+package rsoi.lab3.microservices.front.entity.task;
 
-import org.springframework.beans.factory.annotation.Value;
+import rsoi.lab3.microservices.front.entity.BaseEntity;
+import rsoi.lab3.microservices.front.entity.test.Test;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Task implements Serializable {
+public class Task extends BaseEntity implements Serializable {
 
-    private UUID idTask;
+    private UUID idUser;
+    private String image;
+    private Byte withoutTest;
 
     @NotEmpty
+    @Size(max=255)
     private String nameTask;
+
+    @Size(max=1000)
     private String description;
+
     @NotEmpty
     @Size(max=2500)
     private String textTask;
+
     @Size(max=10000)
     private String templateCode;
-    private String image;
-    @NotNull
+
     @DecimalMin(value = "1") @DecimalMax(value = "5")
     private Byte complexity;
-    private Date createDate;
-    private UUID idUser;
+
     private Test test;
 
-    public UUID getIdTask() {
-        return idTask;
+    public UUID getIdUser() {
+        return idUser;
     }
 
-    public void setIdTask(UUID idTask) {
-        this.idTask = idTask;
+    public void setIdUser(UUID idUser) {
+        this.idUser = idUser;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Byte getWithoutTest() {
+        return withoutTest;
+    }
+
+    public void setWithoutTest(Byte withoutTest) {
+        this.withoutTest = withoutTest;
     }
 
     public String getNameTask() {
@@ -69,36 +92,12 @@ public class Task implements Serializable {
         this.templateCode = templateCode;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
     public Byte getComplexity() {
         return complexity;
     }
 
     public void setComplexity(Byte complexity) {
         this.complexity = complexity;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public UUID getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(UUID idUser) {
-        this.idUser = idUser;
     }
 
     public Test getTest() {
@@ -114,36 +113,43 @@ public class Task implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return Objects.equals(idTask, task.idTask) &&
+        return Objects.equals(super.getId(), task.getId()) &&
+                Objects.equals(idUser, task.idUser) &&
+                Objects.equals(image, task.image) &&
+                Objects.equals(withoutTest, task.withoutTest) &&
+                Objects.equals(super.getCreatedAt(), task.getCreatedAt()) &&
+                Objects.equals(super.getUpdatedAt(), task.getUpdatedAt()) &&
                 Objects.equals(nameTask, task.nameTask) &&
                 Objects.equals(description, task.description) &&
                 Objects.equals(textTask, task.textTask) &&
                 Objects.equals(templateCode, task.templateCode) &&
-                Objects.equals(image, task.image) &&
                 Objects.equals(complexity, task.complexity) &&
-                Objects.equals(createDate, task.createDate) &&
-                Objects.equals(idUser, task.idUser) &&
-                Objects.equals(test, task.test);
+                Objects.equals(test, task.test) &&
+                Objects.equals(super.getStatus(), task.getStatus());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idTask, nameTask, description, textTask, templateCode, image, complexity, createDate, idUser);
+        return Objects.hash(super.getId(), idUser, image, withoutTest, super.getCreatedAt(), super.getUpdatedAt(),
+                nameTask, description, textTask, templateCode, complexity, test);
     }
 
     @Override
     public String toString() {
         return "Task{" +
-                "idTask=" + idTask +
-                ", nameTask=" + nameTask +
+                "idTask=" + super.getId() +
+                ", idUser=" + idUser +
+                ", image='" + image + '\'' +
+                ", withoutTest=" + withoutTest +
+                ", createdAt=" + super.getCreatedAt() +
+                ", updatedAt=" + super.getUpdatedAt() +
+                ", nameTask='" + nameTask + '\'' +
                 ", description='" + description + '\'' +
                 ", textTask='" + textTask + '\'' +
                 ", templateCode='" + templateCode + '\'' +
-                ", image='" + image + '\'' +
                 ", complexity=" + complexity +
-                ", createDate=" + createDate +
-                ", idUser=" + idUser +
                 ", test=" + test +
+                ", status=" + getStatus() +
                 '}';
     }
 }

@@ -6,10 +6,14 @@ package rsoi.lab3.microservices.front;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 
+@EnableEurekaClient
+@EnableFeignClients
 @SpringBootApplication(scanBasePackages = "rsoi.lab3.microservices.front.*")
 @PropertySource("classpath:application.properties")
 public class App {

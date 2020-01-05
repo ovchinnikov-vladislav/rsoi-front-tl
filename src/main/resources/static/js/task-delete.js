@@ -13,14 +13,19 @@ $(document).ready(function() {
         overlay.css('display', 'block');
         $('#delete-modal').modal('hide');
         $.ajax({
-            url: '/user/' + idUser + '/task/' + idTask + '/delete',
+            url: '/auth/task/' + idTask + '/delete',
             type: "POST",
             dataType: "html",
             success: function (data) {
                 $('#tasks-div').html($(data).find('#tasks-div').html());
                 overlay.css('display', 'none');
             }, error: function () {
-                alert("Произошла ошибка при удалении.");
+                overlay.css('display', 'none');
+                $('#info-text-modal').text("При удалении произошла ошибка. Повторите позже.");
+                $('#btn-ok').click(function () {
+                    $('#info-modal').modal('hide');
+                });
+                $('#info-modal').modal('show');
             }
         })
     });

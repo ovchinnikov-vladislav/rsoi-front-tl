@@ -65,14 +65,21 @@ function setSourceTemplateArea() {
 var sourceTestArea = null;
 
 function setSourceTestArea() {
-    sourceTestArea = CodeMirror.fromTextArea(document.getElementById('source-test'), {
-        lineNumbers: true,               // показывать номера строк
-        matchBrackets: true,             // подсвечивать парные скобки
-        mode: "text/x-java", // стиль подсветки
-        indentUnit: 4,                    // размер табуляции
-        viewportMargin: Infinity
-    });
-    sourceTestArea.setOption("theme", "darcula");
+    var sourceTest = document.getElementById('source-test');
+    var source_test_info = $('#source-test-info-text');
+    if (sourceTest != null) {
+        sourceTestArea = CodeMirror.fromTextArea(sourceTest, {
+            lineNumbers: true,               // показывать номера строк
+            matchBrackets: true,             // подсвечивать парные скобки
+            mode: "text/x-java", // стиль подсветки
+            indentUnit: 4,                    // размер табуляции
+            viewportMargin: Infinity
+        });
+        sourceTestArea.on("change", function () {
+            source_test_info.css("display","none");
+        });
+        sourceTestArea.setOption("theme", "darcula");
+    }
 }
 
 function setInputValid() {
@@ -97,7 +104,6 @@ function setSaveTask() {
     var text_task_info = $('#text-task-info-text');
     var source_test_info = $('#source-test-info-text');
     $('#save_button').click(function () {
-        $('#overlay').css('display', 'block');
         var dataTask = {};
         dataTask.nameTask = $('#name-task').val() + "";
         dataTask.description = $('#description-task').val() + "";
@@ -105,52 +111,71 @@ function setSaveTask() {
         dataTask.templateCode = sourceTemplateArea.getValue("\n") + "";
         dataTask.complexity = $('#complexity-task').val();
         var dataTest = {};
-        dataTest.sourceCode = sourceTestArea.getValue("\n") + "";
-        dataTest.description = $('#description-test').val() + "";
-        dataTask.test = dataTest;
-        $.ajax({
-            url: location,
-            dataType: "html",
-            contentType: "application/json",
-            type: 'POST',
-            data: JSON.stringify(dataTask),
-            success: function (data) {
-                $('#name-task').removeClass('is-invalid');
-                name_info.css("display", "none");
-                $('#text-task').removeClass('is-invalid');
-                text_task_info.css("display", "none");
-                $('#source-test').removeClass('is-invalid');
-                source_test_info.css("display", "none");
-                $('#btn-ok').click(function () {
-                    window.location.href = document.referrer;
-                });
-                $('#info-text-modal').text("Данные задачи успешно сохранены.");
-                $('#info-modal').modal('show');
-            },
-            error: function (request, status) {
-                var message = request.responseText;
-                if (message.indexOf("nameTask") !== -1) {
-                    $('#name-task').addClass('is-invalid');
-                    name_info.css("display", "block");
-                }
-                if (message.indexOf("textTask") !== -1) {
-                    $('#text-task').addClass('is-invalid');
-                    text_task_info.css("display", "block");
-                }
-                if (message.indexOf("sourceCode") !== -1) {
-                    $('#source-test').addClass('is-invalid');
-                    source_test_info.css("display", "block");
-                }
-                $('#info-text-modal').text("При сохранении произошла ошибка. Проверьте, что обязательные поля заполнены.");
-                $('#btn-ok').click(function () {
-                    $('#info-modal').modal('hide');
+        if (sourceTestArea != null && $('#description-test') != null) {
+            dataTest.sourceCode = sourceTestArea.getValue("\n") + "";
+            dataTest.description = $('#description-test').val() + "";
+            dataTask.test = dataTest;
+        }
+        if(isValid(dataTask)) {
+            $('#overlay').css('display', 'block');
+            $.ajax({
+                url: location,
+                dataType: "html",
+                contentType: "application/json",
+                type: 'POST',
+                data: JSON.stringify(dataTask),
+                success: function (data) {
+                    $('#name-task').removeClass('is-invalid');
+                    name_info.css("display", "none");
+                    $('#text-task').removeClass('is-invalid');
+                    text_task_info.css("display", "none");
+                    $('#source-test').removeClass('is-invalid');
+                    source_test_info.css("display", "none");
+                    $('#btn-ok').click(function () {
+                        window.location.href = document.referrer;
+                    });
+                    $('#info-text-modal').text("Данные задачи успешно сохранены.");
+                    $('#info-modal').modal('show');
+                },
+                error: function (request, status) {
+                    $('#info-text-modal').text("При сохранении произошла ошибка.");
+                    $('#btn-ok').click(function () {
+                        $('#info-modal').modal('hide');
+                        $('#overlay').css('display', 'none');
+                    });
+                    $('#info-modal').modal('show');
                     $('#overlay').css('display', 'none');
-                });
-                $('#info-modal').modal('show');
-                $('#overlay').css('display', 'none');
-            }
-        });
+                }
+            });
+        }
     });
+}
+
+function isValid(dataTask) {
+    var name_info = $('#name-info-text');
+    var text_task_info = $('#text-task-info-text');
+    var source_test_info = $('#source-test-info-text');
+    var flag = true;
+    if (dataTask.nameTask == null || dataTask.nameTask === "") {
+        $('#name-task').addClass('is-invalid');
+        name_info.css("display", "block");
+        flag = false;
+    }
+
+    if (dataTask.textTask == null || dataTask.textTask === "") {
+        $('#text-task').addClass('is-invalid');
+        text_task_info.css("display", "block");
+        flag = false;
+    }
+
+    if (dataTask.test != null) {
+        if (dataTask.test.sourceCode == null || dataTask.test.sourceCode === "") {
+            $('#source-test').addClass('is-invalid');
+            source_test_info.css("display", "block");
+            flag = false;
+        }
+    }
+    return flag;
 }
 
 $(document).ready(function () {
@@ -163,6 +188,28 @@ $(document).ready(function () {
     setComplexityTask();
     showAndUploadImage();
     setSaveTask();
+
+    var name_info = $('#name-info-text');
+    var text_task_info = $('#text-task-info-text');
+
+    var name_task = $('#name-task');
+    name_task.on('input', function () {
+       name_info.css("display", "none");
+       name_task.removeClass('is-valid');
+       name_task.removeClass('is-invalid');
+    });
+    name_task.keypress(function (e) {
+        if (e.which === 13)
+            document.getElementById('description-task').focus();
+    });
+
+    var text_task = $('#text-task');
+    text_task.on('input', function () {
+       text_task_info.css("display","none");
+       text_task.removeClass("is-valid");
+       text_task.removeClass("is-invalid");
+    });
+
     var mac = CodeMirror.keyMap.default === CodeMirror.keyMap.macDefault;
     CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
 });

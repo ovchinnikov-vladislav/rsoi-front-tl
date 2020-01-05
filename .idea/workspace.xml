@@ -2,19 +2,56 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1e149379-fe0c-4565-8a56-f5cd1628c147" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/data/keystore.ks" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/client/GatewayClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/client/SessionClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/conf/FeignErrorDecoder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/exception/AuthenticationException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/exception/HttpCanNotCreateException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/exception/HttpNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/exception/ServiceAccessException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/exception/feign/ClientAuthenticationExceptionWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/exception/feign/ClientBadResponseExceptionWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/exception/feign/ClientNotFoundExceptionWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/exception/feign/CustomClientExceptionWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/exception/feign/OtherServiceExceptionWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/model/AuthorizationCode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/model/OAuthClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/service/jwt/JwtTokenProvider.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/404.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/proof_rights.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/success.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/App.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/conf/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/conf/WebConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/ExceptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/ExceptionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/MainController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/TaskChangeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/TaskChangeController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/TaskExecuteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/TaskExecuteController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/entity/CompletedTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/entity/CompletedTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/entity/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/entity/Result.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/entity/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/entity/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/entity/Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/entity/Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/model/ExecuteTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/model/ExecuteTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/model/ExecuteTaskRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/model/ExecuteTaskRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/entity/CompletedTask.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/entity/Result.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/entity/Task.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/entity/Test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/entity/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/model/ErrorResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/model/ErrorResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/model/TaskPage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/model/TaskPage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/service/TaskExecutorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/service/TaskExecutorService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/service/TaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/service/TaskService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/log-in.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/log-in.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/sign-in.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/sign-in.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/task-change.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/task-change.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/task-delete.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/task-delete.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/task.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/task.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/sign_in.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/sign_in.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/task.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/task.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/task_change.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/task_change.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/tasks_user.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/tasks_user.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,6 +63,20 @@
   <component name="CodeStyleSettingsInfer">
     <option name="done" value="true" />
   </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -34,6 +85,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="CSS File" />
+        <option value="HTML File" />
         <option value="Class" />
       </list>
     </option>
@@ -46,19 +99,32 @@
   </component>
   <component name="ProjectId" id="1To6uIRS677TVQw45zmiWn9pndF" />
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RequestMappingsPanelOrder0" value="0" />
     <property name="RequestMappingsPanelOrder1" value="1" />
     <property name="RequestMappingsPanelWidth0" value="75" />
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/exception" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="preferences.general" />
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="rsoi.lab3.microservices.front.model" />
+      <recent name="rsoi.lab3.microservices.front.service.jwt" />
+      <recent name="rsoi.lab3.microservices.front.entity" />
+      <recent name="rsoi.lab3.microservices.front.exception" />
+      <recent name="rsoi.lab3.microservices.front.conf" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\git\rsoi-front-tl\src\main\java\rsoi\lab3\microservices\front\exception" />
+      <recent name="D:\git\rsoi-front-tl" />
+      <recent name="D:\git\rsoi-front-tl\src\main\java\rsoi\lab3\microservices\front\entity" />
+      <recent name="D:\git\rsoi-front-tl\src\main\resources\static\js" />
+      <recent name="D:\git\rsoi-front-tl\src\main\resources\templates" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -97,6 +163,35 @@
       <workItem from="1574676185513" duration="7310000" />
       <workItem from="1574698501339" duration="6291000" />
       <workItem from="1575131431222" duration="3499000" />
+      <workItem from="1575298790529" duration="643000" />
+      <workItem from="1575550991214" duration="2935000" />
+      <workItem from="1575563602623" duration="1882000" />
+      <workItem from="1575569251680" duration="6997000" />
+      <workItem from="1575619490337" duration="10613000" />
+      <workItem from="1575639672420" duration="378000" />
+      <workItem from="1575649524295" duration="3773000" />
+      <workItem from="1575729805656" duration="15717000" />
+      <workItem from="1575832518864" duration="5381000" />
+      <workItem from="1575884173567" duration="6421000" />
+      <workItem from="1575905999508" duration="334000" />
+      <workItem from="1575907592115" duration="3190000" />
+      <workItem from="1575980804126" duration="7496000" />
+      <workItem from="1576249479853" duration="259000" />
+      <workItem from="1576251771583" duration="3286000" />
+      <workItem from="1576444553187" duration="1896000" />
+      <workItem from="1576672023357" duration="5911000" />
+      <workItem from="1576744193634" duration="1259000" />
+      <workItem from="1576852268067" duration="3307000" />
+      <workItem from="1576857991230" duration="346000" />
+      <workItem from="1577033680506" duration="2224000" />
+      <workItem from="1577053359887" duration="1319000" />
+      <workItem from="1577364727188" duration="1204000" />
+      <workItem from="1577448641089" duration="16186000" />
+      <workItem from="1577986152976" duration="1097000" />
+      <workItem from="1577987523796" duration="2246000" />
+      <workItem from="1578052832238" duration="896000" />
+      <workItem from="1578063810408" duration="8270000" />
+      <workItem from="1578228895199" duration="4590000" />
     </task>
     <servers />
   </component>
@@ -115,5 +210,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/rsoi/lab3/microservices/front/controller/AuthController.java</url>
+          <line>61</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

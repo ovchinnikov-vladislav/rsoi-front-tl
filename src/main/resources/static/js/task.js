@@ -19,6 +19,9 @@ $(document).ready(function () {
 
 function sendExecuteTask(idUser, idTask) {
     $('#overlay').css('display', 'block');
+    var infoText = $('#source-template-task-info');
+    $('#card-result').css('display', 'none');
+    infoText.css('display', 'none');
     var request = {};
     request.idTask = idTask;
     request.idUser = idUser;
@@ -33,12 +36,28 @@ function sendExecuteTask(idUser, idTask) {
         dataType: "html",
         data: JSON.stringify(request),
         success: function (data) {
+            $('#card-result').css('display', 'block');
             $('#overlay').css('display', 'none');
+            infoText.css('display', 'none');
             $('#result-test').html($(data).find('#result-test').html());
         },
         error: function (request, status, error) {
             $('#overlay').css('display', 'none');
-            $('#card-result').html("Ошибка компиляции");
+            var errorResponse = JSON.parse(request.responseText);
+            if (errorResponse.message.indexOf("sourceTask") !== -1) {
+                infoText.text("Введите код своего решения.");
+            } else if (errorResponse.message === "Test service unavailable.") {
+                infoText.text("Сервер тестов недоступен, повторите позже или обратитесь к администратору.");
+            } else if (errorResponse.message === "CompletedTask service unavailable.") {
+                infoText.text("Сервер выполнения задач недоступен, повторите позже или обратитесь к администратору.");
+            } else if (errorResponse.message === "Result service unavailable.") {
+                infoText.text("Сервер результатов недоступен, повторите позже или обратитесь к администратору.");
+            } else if (errorResponse.message === "Test isn't executed.") {
+                infoText.text("Ошибка компиляции.");
+            } else {
+                infoText.text("Неизвестная ошибка, повторите позже или обратитесь к администратору.");
+            }
+            infoText.css('display', 'block');
         }
     });
 }

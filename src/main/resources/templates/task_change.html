@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.thymeleaf.org" version="2.0">
 <head>
-    <title>Tests</title>
+    <title>Tasks</title>
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
     <link th:href="@{/css/bootstrap-grid.css}" rel="stylesheet"/>
     <link th:href="@{/css/bootstrap-reboot.css}" rel="stylesheet">
@@ -19,14 +19,14 @@
     <link rel="stylesheet" th:href="@{/css/darcula.css}">
     <link th:href="@{/css/style.css}" rel="stylesheet"/>
     <script th:src="@{/js/task-change.js}"></script>
-    <script th:if="${task.idTask != null}">
+    <script th:if="${task.id != null && task.id != zeroUUID}">
         type_operation = 1
     </script>
 </head>
 <body>
 <header>
     <!-- Информационное модальное окно -->
-    <div class="modal fade" id="info-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="info-modal" style="z-index: 110" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="vertical-alignment-helper">
             <div class="modal-dialog vertical-align-center">
                 <div class="modal-content">
@@ -49,26 +49,26 @@
 
     <!-- Навигационная панель -->
     <nav id="navpanel" class="navbar navbar-secondary bg-secondary">
-        <a href="/" class="navbar-brand text-light">TESTS</a>
+        <a href="/" class="navbar-brand text-light">TASKS</a>
         <ul class="nav justify-content-end">
             <li class="nav-item ml-3">
                 <a href="/" class="btn btn-secondary btn-lg mr-3 text-light" role="button">Главная</a>
             </li>
-            <li class="nav-item" th:if="${user.idUser != null}">
+            <li class="nav-item" th:if="${user.id != null}">
                 <a class="btn btn-secondary btn-lg ml-3 mr-5 text-light" role="button"
-                   th:if="${user.idUser != null && user.group == 0}" th:href="@{'/user/' + ${user.idUser} + '/task'}">Задачи</a>
+                   th:if="${user.id != null && user.roles.get(0) == 'ROLE_ADMIN'}" th:href="@{'/auth/task'}">Задачи</a>
             </li>
-            <li class="nav-item" th:if="${user.idUser == null}">
+            <li class="nav-item" th:if="${user.id == null}">
                 <a class="btn btn-secondary btn-sm mr-3 text-light" role="button" th:href="@{/sign_in}">Регистрация</a>
             </li>
-            <li class="nav-item" th:if="${user.idUser == null}">
+            <li class="nav-item" th:if="${user.id == null}">
                 <a class="btn btn-secondary btn-sm text-light" role="button" data-toggle="modal"
                    onclick="openInputModal()">Вход</a>
             </li>
-            <li class="nav-item" th:if="${user.idUser != null}">
+            <li class="nav-item" th:if="${user.id != null}">
                 <div class="row">
                     <span id="welcome-text" class="text-light text-center mr-3" style="font-size: 0.875rem"
-                          th:text="'Добро пожаловать, ' + ${user.userName}"></span>
+                          th:text="'Добро пожаловать, ' + ${user.username}"></span>
                 </div>
                 <div class="row justify-content-end">
                     <a class="btn btn-secondary btn-sm mr-2" th:href="@{/exit}">Выйти</a>
@@ -79,7 +79,7 @@
 </header>
 
 <main>
-    <div class="container p-lg-5" th:if="${user.idUser == null}">
+    <div class="container p-lg-5" th:if="${user.id == null}">
         <div class="card mx-auto" style="max-width: 35rem;">
             <div class="card-body justify-content-center">
                 <form id="log-in-form" class="needs-validation" method="post" novalidate>
@@ -108,7 +108,7 @@
             </div>
         </div>
     </div>
-    <div class="container p-lg-5" th:if="${user.idUser != null}">
+    <div class="container p-lg-5" th:if="${user.id != null}">
         <div class="row">
             <div class="col">
                 <h3>Создание/Редактирование задачи</h3>
@@ -136,7 +136,7 @@
                         </div>
                     </div>
                     <div class="col">
-                        <label for="name-task">Введие название задания (обязательно)</label>
+                        <label for="name-task">Введите название задания (обязательно)</label>
                         <input id="name-task" type="text" th:value="${task.nameTask}" class="form-control mb-1"
                                                               placeholder="Название задания" required>
                         <p id="name-info-text" style="font-size: 14px; color: darkred; display: none">
@@ -168,29 +168,32 @@
                     </label>
                 </div>
                 <div class="row">
-                <textarea id="source-template-task" th:text="${task.getTemplateCode()}" class="form-control"
+                <textarea id="source-template-task" th:text="${task.templateCode}" class="form-control"
                           rows="10"></textarea>
+                </div>
+                <hr th:if="${task.withoutTest == 0}"/>
+                <div class="row" th:if="${task.withoutTest == 0}">
+                    <label for="source-test">Введите тесты для задания (обязательно)</label>
+                </div>
+                <div class="row">
+                <textarea id="source-test" th:if="${task.withoutTest == 0}" th:text="${task.test != null ? task.test.sourceCode : null}" class="form-control"
+                          rows="10" required></textarea>
                 </div>
                 <div class="row">
                     <p id="source-test-info-text" style="font-size: 14px; color: darkred; display: none">
                         Требуется написать тесты
                     </p>
                 </div>
-                <hr/>
-                <div class="row">
-                    <label for="source-test">Введите тесты для задания (обязательно)</label>
-                </div>
-                <div class="row">
-                <textarea id="source-test" th:text="${task.getTest().getSourceCode()}" class="form-control"
-                          rows="10" required></textarea>
-                </div>
-                <hr/>
-                <div class="row">
+                <hr th:if="${task.withoutTest == 0}"/>
+                <div class="row" th:if="${task.withoutTest == 0}">
                     <label for="description-test">Введите описание тестов</label>
                 </div>
                 <div class="row">
-                <textarea id="description-test" th:text="${task.getTest().getDescription()}" class="form-control"
+                <textarea id="description-test" th:if="${task.withoutTest == 0}" th:text="${task.test != null ? task.test.description : null}" class="form-control"
                           rows="4" placeholder="Для чего предназначены тесты, какие задачи решают?"></textarea>
+                </div>
+                <div class="row" th:if="${task.withoutTest == 1}">
+                    <p style="font-size: 14px; color: darkred">Сервис тестов недоступен. Вы можете создать задачу сейчас, а тесты позже.</p>
                 </div>
             </div>
             <hr/>

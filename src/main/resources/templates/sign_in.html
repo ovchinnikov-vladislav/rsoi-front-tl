@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta content="text/html;charset=UTF-8">
-    <title>Tests</title>
+    <title>Tasks</title>
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
     <link th:href="@{/css/bootstrap-grid.css}" rel="stylesheet"/>
     <link th:href="@{/css/bootstrap-reboot.css}" rel="stylesheet"/>
@@ -75,26 +75,26 @@
     </div>
     <!-- Навигационная панель -->
     <nav id="navpanel" class="navbar navbar-secondary bg-secondary">
-        <a href="/" class="navbar-brand text-light">TESTS</a>
+        <a href="/" class="navbar-brand text-light">TASKS</a>
         <ul class="nav justify-content-end">
             <li class="nav-item ml-3">
                 <a href="/" class="btn btn-secondary btn-lg mr-3 text-light" role="button">Главная</a>
             </li>
-            <li class="nav-item" th:if="${user.idUser != null}">
+            <li class="nav-item" th:if="${user.id != null}">
                 <a class="btn btn-secondary btn-lg ml-3 mr-5 text-light" role="button"
-                   th:if="${user.idUser != null && user.group == 0}" th:href="@{'/user/' + ${user.idUser} + '/task'}">Задачи</a>
+                   th:if="${user.id != null && user.roles.get(0) == 'ROLE_ADMIN'}" th:href="@{'/auth/task'}">Задачи</a>
             </li>
-            <li class="nav-item" th:if="${user.idUser == null}">
+            <li class="nav-item" th:if="${user.id == null}">
                 <a class="btn btn-secondary btn-sm mr-3 text-light" role="button" th:href="@{/sign_in}">Регистрация</a>
             </li>
-            <li class="nav-item" th:if="${user.idUser == null}">
+            <li class="nav-item" th:if="${user.id == null}">
                 <a class="btn btn-secondary btn-sm text-light" role="button" data-toggle="modal"
                    onclick="openInputModal()">Вход</a>
             </li>
-            <li class="nav-item" th:if="${user.idUser != null}">
+            <li class="nav-item" th:if="${user.id != null}">
                 <div class="row">
                     <span id="welcome-text" class="text-light text-center mr-3" style="font-size: 0.875rem"
-                          th:text="'Добро пожаловать, ' + ${user.userName}"></span>
+                          th:text="'Добро пожаловать, ' + ${user.username}"></span>
                 </div>
                 <div class="row justify-content-end">
                     <a class="btn btn-secondary btn-sm mr-2" th:href="@{/exit}">Выйти</a>
@@ -145,6 +145,9 @@
             <button id="input-modal-btn" class="btn btn-outline-dark btn-lg mb-2" type="button" onclick="openInputModal()">Вход</button>
             <button id="btn-sign-in" type="button" class="btn btn-outline-secondary my_btn btn-lg mb-2">Зарегистрироваться</button>
         </form>
+        <p id="info-reg-text" style="font-size: 14px; color: darkred; display: none">
+
+        </p>
     </div>
 </main>
 

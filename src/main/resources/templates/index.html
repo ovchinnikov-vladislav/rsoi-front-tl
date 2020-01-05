@@ -1,7 +1,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta content="text/html;charset=UTF-8">
-    <title>Tests</title>
+    <title>Tasks</title>
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
     <link th:href="@{/css/bootstrap-grid.css}" rel="stylesheet"/>
     <link th:href="@{/css/bootstrap-reboot.css}" rel="stylesheet"/>
@@ -55,26 +55,26 @@
     </div>
     <!-- Навигационная панель -->
     <nav id="navpanel" class="navbar navbar-secondary bg-secondary">
-        <a href="/" class="navbar-brand text-light">TESTS</a>
+        <a href="/" class="navbar-brand text-light">TASKS</a>
         <ul class="nav justify-content-end">
             <li class="nav-item ml-3">
                 <a href="/" class="btn btn-secondary btn-lg mr-3 text-light" role="button">Главная</a>
             </li>
-            <li class="nav-item" th:if="${user.idUser != null}">
+            <li class="nav-item" th:if="${user.id != null}">
                 <a class="btn btn-secondary btn-lg ml-3 mr-5 text-light" role="button"
-                   th:if="${user.idUser != null && user.group == 0}" th:href="@{'/user/' + ${user.idUser} + '/task'}">Задачи</a>
+                   th:if="${user.id != null && user.roles.get(0) == 'ROLE_ADMIN'}" th:href="@{'/auth/task'}">Задачи</a>
             </li>
-            <li class="nav-item" th:if="${user.idUser == null}">
+            <li class="nav-item" th:if="${user.id == null}">
                 <a class="btn btn-secondary btn-sm mr-3 text-light" role="button" th:href="@{/sign_in}">Регистрация</a>
             </li>
-            <li class="nav-item" th:if="${user.idUser == null}">
+            <li class="nav-item" th:if="${user.id == null}">
                 <a class="btn btn-secondary btn-sm text-light" role="button" data-toggle="modal"
                    onclick="openInputModal()">Вход</a>
             </li>
-            <li class="nav-item" th:if="${user.idUser != null}">
+            <li class="nav-item" th:if="${user.id != null}">
                 <div class="row">
                     <span id="welcome-text" class="text-light text-center mr-3" style="font-size: 0.875rem"
-                          th:text="'Добро пожаловать, ' + ${user.userName}"></span>
+                          th:text="'Добро пожаловать, ' + ${user.username}"></span>
                 </div>
                 <div class="row justify-content-end">
                     <a class="btn btn-secondary btn-sm mr-2" th:href="@{/exit}">Выйти</a>
@@ -100,10 +100,10 @@
         </div>
         <hr/>
         <div class="row">
-            <div class="container-fluid" th:if="${tasksPage.content.size() == 0}" >
+            <div class="container-fluid" th:if="${tasksPage == null || tasksPage.content.size() == 0}" >
                 <h1 class="text-center" style="color: grey">Задачи станут доступны позже.</h1>
             </div>
-            <div th:each="task: ${tasksPage.content}" class="col-sm-6 col-lg-4 d-flex">
+            <div th:each="task: ${tasksPage != null ? tasksPage.content : null}" class="col-sm-6 col-lg-4 d-flex">
                 <div class="card mt-3">
                     <div class="img_wrap">
                         <img class="image-task card-img-top" th:if="${task.image == null || task.image == ''}"
@@ -117,13 +117,13 @@
                         <p class="card-text" size="10px">Сложность:</p>
                         <img width="150" th:src="@{'/img/stars-' + ${task.complexity} + '.png'}">
                     </div>
-                    <a th:href="@{'/task/'+${task.idTask}}" class="btn btn-outline-secondary my_btn"
+                    <a th:href="@{'/task/'+${task.id}}" class="btn btn-outline-secondary my_btn"
                        onclick="$('#progress').css('display', 'block'); $('#overlay').css('display', 'block')">Решить</a>
                 </div>
             </div>
         </div>
         <nav class="mt-3">
-            <ul class="pagination" th:if="${tasksPage.totalPages > 1}" >
+            <ul class="pagination" th:if="${tasksPage != null ? tasksPage.totalPages > 1 : 0}" >
                 <li class="page-item" th:if="${tasksPage.number > 0}">
                     <a class="page-link" th:href="@{/(page=${tasksPage.getNumber() - 1}, size=${tasksPage.size})}"><<</a>
                 </li>
