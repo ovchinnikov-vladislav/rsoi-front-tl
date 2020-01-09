@@ -20,8 +20,8 @@ public class AuthService {
     private SessionClient sessionClient;
 
     public User create(User user) {
-        String md5Hex = DigestUtils.md5Hex(user.getPassword()).toUpperCase();
-        user.setPassword(md5Hex);
+        //String md5Hex = DigestUtils.md5Hex(user.getPassword()).toUpperCase();
+        //user.setPassword(md5Hex);
         return gatewayClient.createUser(user).orElse(null);
     }
 

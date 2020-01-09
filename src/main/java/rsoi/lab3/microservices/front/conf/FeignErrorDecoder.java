@@ -30,10 +30,10 @@ public class FeignErrorDecoder implements ErrorDecoder {
         try {
             String message = new String(response.body().asInputStream().readAllBytes());
             errorResponse = new ObjectMapper().readValue(message, ErrorResponse.class);
-            logger.error("Status code " + response.status() + ", methodKey = " + methodKey);
-            logger.error("Message: " + errorResponse.getMessage());
+            logger.info("Status code " + response.status() + ", methodKey = " + methodKey);
+            logger.info("Message: " + errorResponse.getMessage());
         } catch (Exception exc) {
-            exc.printStackTrace();
+            logger.error(exc.getMessage());
         }
         switch (response.status()) {
             case 400:

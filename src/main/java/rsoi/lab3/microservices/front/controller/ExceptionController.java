@@ -27,7 +27,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@ControllerAdvice(basePackages = "rsoi.lab3.microservices.front.*")
+@ControllerAdvice
 public class ExceptionController {
 
     private static final Logger logger = LoggerFactory.getLogger(ExceptionHandler.class);

@@ -45,10 +45,10 @@ $(document).ready(function() {
                     infoText.css("display", "block");
                 }
             },
-            error: function(request, status, error) {
+            error: function(request) {
                 $('#overlay').css('display', 'none');
                 var r = JSON.parse(request.responseText);
-                if (r.message.indexOf("Unauthorized") !== -1) {
+                if (r.status === 401) {
                     userName.classList.remove('is-valid');
                     password.classList.remove('is-valid');
                     userName.classList.add('is-invalid');

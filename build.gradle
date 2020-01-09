@@ -23,6 +23,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 }
 
+bootJar {
+    baseName = 'front-end-spring-boot'
+    version = '0.1.0'
+}
+
 springBoot {
     mainClassName = 'rsoi.lab3.microservices.front.App'
 }
